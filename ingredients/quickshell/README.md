@@ -30,12 +30,13 @@ From the repository root:
 
 ```sh
 mkdir -p ~/.config/quickshell
-cp ingredients/quickshell/shell.qml ingredients/quickshell/ClaudeUsage.qml ~/.config/quickshell/
+cp -r ingredients/quickshell/components ingredients/quickshell/services ~/.config/quickshell/
+cp ingredients/quickshell/shell.qml ~/.config/quickshell/
 cp ingredients/quickshell/world-clocks.json ~/.config/quickshell/
 quickshell --no-duplicate --daemonize
 ```
 
-Keep `ClaudeUsage.qml` alongside `shell.qml`. World clock selections are saved to
+Keep `components/` and `services/` alongside `shell.qml`. World clock selections are saved to
 `~/.config/quickshell/world-clocks.json` when edited in the shell.
 
 To launch on login, add `quickshell --no-duplicate --daemonize` to Hyprland's startup
@@ -43,7 +44,7 @@ commands. Quickshell automatically reloads when its configuration changes.
 
 ## Quick overview
 
-The overview is included in `shell.qml`: live workspace and window previews,
+The overview is in `components/Overview.qml`: live workspace and window previews,
 workspace switching, and click-to-focus windows. Open it with the grid button on
 the left of the bar, and close it with Escape or a click on the background.
 
@@ -69,3 +70,19 @@ quickshell ipc call overview toggle
 quickshell ipc call overview open
 quickshell ipc call overview close
 ```
+
+## Layout
+
+- `shell.qml` creates the shared services and one `ScreenShell` per monitor.
+- `services/` owns desktop state, calendar settings, hardware polling, usage
+  fetching, and theme colors. Polling runs once, regardless of monitor count.
+- `components/ScreenShell.qml` connects each monitor's windows to those services.
+- `components/Bar.qml`, `SystemTrayWidget.qml`, and `UsageWidget.qml` build the bar;
+  each provider has a separate usage popup.
+- `components/Overview.qml` and `WindowSwitcher.qml` own the window previews.
+- `components/ClockCenter.qml` and `ControlCenter.qml` compose their smaller panels
+  and have separate click-outside dismissal windows.
+
+Components declare their service dependencies as required properties. Keep
+background processes in services and pass those services into views instead of
+referencing IDs in another QML file.
