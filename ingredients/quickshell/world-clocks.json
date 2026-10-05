@@ -1,0 +1,28 @@
+{
+  "clocks": [
+    {
+      "label": "San Francisco",
+      "timezone": "America/Los_Angeles"
+    },
+    {
+      "label": "London",
+      "timezone": "Europe/London"
+    },
+    {
+      "label": "Dubai",
+      "timezone": "Asia/Dubai"
+    },
+    {
+      "label": "Mumbai",
+      "timezone": "Asia/Kolkata"
+    },
+    {
+      "label": "New York",
+      "timezone": "America/New_York"
+    },
+    {
+      "label": "Istanbul",
+      "timezone": "Europe/Istanbul"
+    }
+  ]
+}
