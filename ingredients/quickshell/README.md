@@ -40,3 +40,32 @@ Keep `ClaudeUsage.qml` alongside `shell.qml`. World clock selections are saved t
 
 To launch on login, add `quickshell --no-duplicate --daemonize` to Hyprland's startup
 commands. Quickshell automatically reloads when its configuration changes.
+
+## Quick overview
+
+The overview is included in `shell.qml`: live workspace and window previews,
+workspace switching, and click-to-focus windows. Open it with the grid button on
+the left of the bar, and close it with Escape or a click on the background.
+
+The companion `hyprland-overview.lua` preserves the current Lua-based Hyprland
+integration: Quickshell autostart, overview blur, and the `XF86LaunchA` and
+`mouse:277` shortcuts. Install it with:
+
+```sh
+cp ingredients/quickshell/hyprland-overview.lua ~/.config/quickshell/
+```
+
+Load it from `~/.config/hypr/hyprland.lua` in place of the equivalent existing
+startup entry, overview layer rule, and overview bindings:
+
+```lua
+dofile(os.getenv("HOME") .. "/.config/quickshell/hyprland-overview.lua")
+```
+
+The overview can also be controlled directly:
+
+```sh
+quickshell ipc call overview toggle
+quickshell ipc call overview open
+quickshell ipc call overview close
+```
